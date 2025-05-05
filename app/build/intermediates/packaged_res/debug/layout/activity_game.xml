@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6F7FF"
+    tools:context="view.GameActivity">
+
+    <!-- 顶部状态区域 -->
+    <LinearLayout
+        android:id="@+id/layout_top_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:background="#BBDEFB"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/tv_game_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="游戏进行中"
+            android:textSize="14sp"
+            android:textColor="#1976D2"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_current_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前回合: 玩家1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginRight="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_last_played_cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="#333333"/>
+    </LinearLayout>
+
+    <!-- 中央牌桌区域 -->
+    <FrameLayout
+        android:id="@+id/layout_table"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_player_hand"
+        android:layout_below="@id/layout_top_info"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <!-- 上家玩家图标区域 -->
+        <FrameLayout
+            android:id="@+id/layout_top_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top" />
+
+        <!-- 左边玩家图标区域 -->
+        <FrameLayout
+            android:id="@+id/layout_left_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical" />
+
+        <!-- 右边玩家图标区域 -->
+        <FrameLayout
+            android:id="@+id/layout_right_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical" />
+
+        <!-- 最后打出的牌区域 -->
+        <LinearLayout
+            android:id="@+id/layout_last_played"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_last_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginBottom="4dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_last_played_cards"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <!-- 玩家手牌区域 -->
+    <LinearLayout
+        android:id="@+id/layout_player_hand"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#BBDEFB"
+        android:padding="8dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="我的手牌"
+            android:textSize="14sp"
+            android:textColor="#1976D2"
+            android:gravity="center"
+            android:layout_marginBottom="4dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_player_cards"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"
+            android:background="#FFFFFF"
+            android:padding="4dp"
+            android:clipToPadding="false"/>
+
+        <!-- 操作按钮区域 -->
+        <LinearLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_pass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="不出"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_background_secondary"/>
+
+            <Button
+                android:id="@+id/btn_play_cards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="出牌"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button_background"/>
+
+            <Button
+                android:id="@+id/btn_quit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="退出"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="@drawable/button_background_secondary"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 在文件底部的根布局中添加调试信息区域 -->
+    <ScrollView
+        android:id="@+id/sv_debug_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#80000000"
+        android:visibility="visible"
+        android:padding="8dp"
+        android:maxHeight="150dp">
+        
+        <TextView
+            android:id="@+id/tv_debug_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="调试信息区域"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </ScrollView>
+</RelativeLayout> 

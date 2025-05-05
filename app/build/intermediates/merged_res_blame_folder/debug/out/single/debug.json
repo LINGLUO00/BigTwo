@@ -1,0 +1,94 @@
+[
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_status_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/status_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_player_icon_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/player_icon_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_text_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/text_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_item_card.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/item_card.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_bluetooth_setup.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_bluetooth_setup.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_game_setup.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_game_setup.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_main.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_game.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_game.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_player_info_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/player_info_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_button_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/button_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_rules.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_rules.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_ic_launcher.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_diamond_three_holder_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/diamond_three_holder_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_list_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/list_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_club_three_holder_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/club_three_holder_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_edit_text_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/edit_text_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_panel_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/panel_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_button_background_secondary.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/button_background_secondary.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_card_area_background.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/card_area_background.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_item_other_player.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/item_other_player.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_item_player_icon.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/item_player_icon.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_settings.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_ic_player.xml.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/ic_player.xml"
+    }
+]

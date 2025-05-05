@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bigtwo.game.app-mergeDebugResources-27:/values-ldrtl-v17/values-ldrtl-v17.xml",
+            "map": [
+                {
+                    "source": "/home/hyl/.gradle/caches/8.14/transforms/1eaa9d71cd00db4a478c54a4cba5918e/transformed/material-1.9.0/res/values-ldrtl-v17/values-ldrtl-v17.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,191",
+                        "endColumns": "135,140",
+                        "endOffsets": "186,327"
+                    }
+                }
+            ]
+        }
+    ]
+}

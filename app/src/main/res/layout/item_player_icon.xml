@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp"
+    android:id="@+id/player_icon_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/player_icon_background">
+
+        <TextView
+            android:id="@+id/tv_player_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="玩家1"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/tv_card_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13张"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp"
+            android:gravity="center" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView> 
