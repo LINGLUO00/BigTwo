@@ -177,7 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#80000000"
-        android:visibility="visible"
+        android:visibility="gone"
         android:padding="8dp"
         android:maxHeight="150dp">
         

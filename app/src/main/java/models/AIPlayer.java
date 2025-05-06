@@ -54,4 +54,27 @@ public class AIPlayer extends Player {
         }
         return -1;  // 否则，返回-1
     }
+    
+    /**
+     * 执行AI自动出牌决策
+     * @param game 当前游戏实例
+     * @return 是否成功出牌
+     */
+    public boolean autoPlay(Game game) {
+        if (game == null) return false;
+        
+        // 获取其他玩家手牌数量
+        List<Integer> othersCount = new ArrayList<>();
+        for (Player p : game.getPlayers()) {
+            if (p != this) {
+                othersCount.add(p.getHand().size());
+            }
+        }
+        
+        // 做出决策
+        makeDecision(game.getLastPattern(), othersCount);
+        
+        // 尝试出牌
+        return game.playSelected();
+    }
 }

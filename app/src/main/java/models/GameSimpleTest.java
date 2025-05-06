@@ -29,7 +29,7 @@ public class GameSimpleTest {
         game.addPlayer(human);
         
         // 设置监听器
-        game.addListener(new Game.GameStateListener() {
+        game.addGameStateListener(new Game.GameStateListener() {
             @Override
             public void onGameStarted(Game g) {
                 System.out.println("游戏开始！");

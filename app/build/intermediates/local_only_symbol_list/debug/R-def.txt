@@ -56,7 +56,6 @@ id layout_table
 id layout_top_info
 id layout_top_player
 id lv_devices
-id player_icon_card
 id rb_advanced
 id rb_simple
 id rg_ai_difficulty

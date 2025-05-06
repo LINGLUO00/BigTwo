@@ -13,7 +13,7 @@
     <string name="start_game">开始游戏</string>
     <string name="player_name">玩家名称</string>
     <string name="ai_difficulty">AI难度</string>
-    <string name="simple">简单</string>
-    <string name="advanced">高级</string>
+    <string name="simple">高级</string>
+    <string name="advanced">智能</string>
     <string name="ai_count">AI数量</string>
 </resources> 

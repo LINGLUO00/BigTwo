@@ -90,10 +90,11 @@ public final class Game {
         lock.lock();
         try {
             if (isFirstTurn() || lastIdx == currentIdx) return false;  // 如果是第一轮，或者上一轮玩家是当前玩家，则返回 false
+            Player passer = current();            // 保存当前即将 pass 的玩家
             passCount++;  // pass次数加1
             if (passCount >= players.size() - 1) allPassReset();  // 如果pass次数大于等于玩家数量减1，则重置
             else next();  // 否则，下一轮
-            fire(l -> l.onPlayerPassed(this, current()));  // 通知监听器当前玩家pass   
+            fire(l -> l.onPlayerPassed(this, passer));  // 通知监听器真正选择 pass 的玩家
             return true;
         } finally { lock.unlock(); }
     }
@@ -201,6 +202,49 @@ public final class Game {
         void onGameOver(Game g, Player winner);  // 游戏结束
     }
 
-    public void addListener(GameStateListener l) { listeners.addIfAbsent(l); }  // 添加监听器
-    public void removeListener(GameStateListener l) { listeners.remove(l); }  // 移除监听器
+    // 添加监听器
+    public void addGameStateListener(GameStateListener l) { 
+        if (l != null) {
+            listeners.addIfAbsent(l); 
+        }
+    }
+
+    /* ------------------- Compatibility Layer (legacy code) ------------------- */
+    // Provide old-style API names so that previously written UI / controller code can still compile.
+
+    /**
+     * Legacy constant mapping – previously code used Game.STATE_PLAYING int constant.
+     */
+    public static final int STATE_PLAYING = State.PLAYING.ordinal();
+
+    /**
+     * Legacy alias for getState() to return the enum ordinal value expected by older code.
+     */
+    public int getGameState() { return state.ordinal(); }
+
+    /**
+     * Legacy helper – returns the player who played last (may be null when first turn).
+     */
+    public Player getLastPlayer() {
+        return lastIdx >= 0 && lastIdx < players.size() ? players.get(lastIdx) : null;
+    }
+
+    /**
+     * Legacy wrapper: some old screens reset game state manually before重新发牌等。
+     * Here we simply bring the model back to WAITING so it is functionally harmless.
+     */
+    public void resetGameState() {
+        lock.lock();
+        try {
+            state = State.WAITING;
+            currentIdx = 0;
+            lastIdx = -1;
+            lastPattern = null;
+            passCount = 0;
+            players.forEach(Player::clearSelections);
+        } finally { lock.unlock(); }
+    }
+
+    /** Legacy alias – previous code called this name. */
+    public CardPattern getLastPlayedPattern() { return getLastPattern(); }
 }

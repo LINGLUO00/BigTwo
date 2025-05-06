@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Player {
     private final String name;  // 玩家名字
-    private final boolean isHuman;  // 是否是人类
+    private boolean isHuman;  // 是否是人类（允许后期标记）
 
     private final ReentrantLock lock = new ReentrantLock();  // 锁
     private final List<Card> hand = new CopyOnWriteArrayList<>();  // 手牌
@@ -25,6 +25,11 @@ public class Player {
     /* ---------- basic info ---------- */
     public String getName() { return name; }  // 获取玩家名字
     public boolean isHuman() { return isHuman; }  // 是否是人类
+
+    /**
+     * 用于网络模式下收到发牌消息后，把本机玩家标记为人类。
+     */
+    public void setHuman(boolean human) { this.isHuman = human; }
 
     /* ---------- hand operations ---------- */
     public void setHand(List<Card> cards) {

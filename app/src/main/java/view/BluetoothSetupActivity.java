@@ -31,6 +31,7 @@ import controller.BluetoothNetworkManager;
 import controller.NetworkController;
 import controller.NetworkView;
 import models.NetworkManager;
+import util.AppExecutors;
 
 /**
  * 蓝牙设置活动，用于配置蓝牙联机
@@ -51,7 +52,12 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
     private BluetoothNetworkManager bluetoothManager;
     private List<NetworkManager.DeviceInfo> deviceList;
     private ArrayAdapter<String> deviceAdapter;
-    private NetworkManager.ConnectionListener networkConnectionListener;
+    
+    // 客户端延迟发送JOIN_GAME相关字段
+    private String pendingJoinPlayerName;
+    private boolean joinSent;
+    
+    private final AppExecutors executors = AppExecutors.getInstance();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +71,6 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         btnBack = findViewById(R.id.btn_back);
         lvDevices = findViewById(R.id.lv_devices);
         tvStatus = findViewById(R.id.tv_status);
-        
-        // 初始化网络连接监听器
-        networkConnectionListener = new NetworkConnectionListener();
-        
-        // 初始化蓝牙管理器和控制器
-        initBluetoothService();
         
         // 初始化设备列表
         deviceList = new ArrayList<>();
@@ -99,12 +99,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             }
         });
         
-        lvDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                connectToDevice(position);
-            }
-        });
+        lvDevices.setOnItemClickListener((parent, view, position, id) -> connectToDevice(position));
         
         // 检查蓝牙权限
         checkBluetoothPermissions();
@@ -195,12 +190,17 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         } else {
             // 确保网络控制器已经初始化
+            if (networkController == null) {
+                // 尝试初始化蓝牙服务及网络控制器
+                initBluetoothService();
+            }
+
             if (networkController != null) {
                 networkController.initialize(NetworkManager.ConnectionType.BLUETOOTH);
-                Toast.makeText(this, "1BluetoothSetupActivity - initBluetooth() - 网络控制器初始化成功", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Bluetooth 初始化完成", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "2BluetoothSetupActivity - 错误: 网络控制器未正确创建", Toast.LENGTH_LONG).show();
-                Log.e(TAG, "initBluetooth: 网络控制器未正确创建");
+                Toast.makeText(this, "错误: 网络控制器未正确创建", Toast.LENGTH_LONG).show();
+                Log.e(TAG, "initBluetooth: 网络控制器依旧为null");
             }
         }
     }
@@ -262,16 +262,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         try {
             if (networkController != null) {
                 Log.d(TAG, "scanForDevices: 调用networkController.startDiscovery()");
-                boolean result = networkController.startDiscovery();
-                Log.d(TAG, "scanForDevices: 扫描启动结果: " + (result ? "成功" : "失败"));
-                
-                if (!result) {
-                    Toast.makeText(this, "扫描启动失败，请检查蓝牙状态", Toast.LENGTH_SHORT).show();
-                    tvStatus.setText("扫描失败");
-                    btnScan.setEnabled(true);
-                    btnScan.setText("重新扫描");
-                    return;
-                }
+                networkController.startDiscovery();
                 
                 // 添加30秒超时，自动重新启用扫描按钮
                 new Handler().postDelayed(() -> {
@@ -330,19 +321,15 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         tvStatus.setText("正在创建房间...");
         Toast.makeText(this, "开始创建房间...", Toast.LENGTH_SHORT).show();
         
-        // 设置为主机模式
-        networkController.setAsHost();
-        
-        // 创建房间
-        boolean roomCreated = networkController.createRoom("Big Two Game Room");
-        
+        // 调用网络控制器创建房间
+        boolean roomCreated = networkController.createRoom(playerName + "_room");
+
         if (!roomCreated) {
             Toast.makeText(this, "创建房间失败，请重试", Toast.LENGTH_LONG).show();
             tvStatus.setText("创建房间失败");
             return;
         }
-        
-        // 创建成功
+
         Toast.makeText(this, "房间创建成功，等待其他玩家连接", Toast.LENGTH_SHORT).show();
         tvStatus.setText("等待其他玩家连接...");
         
@@ -367,33 +354,15 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
      * 发送加入游戏消息
      */
     private void sendJoinGameMessage(String playerName) {
-        // 尝试发送加入游戏消息
-        try {
-            if (networkController != null) {
-                boolean messageSent;
-                {
-                    final String p = playerName;
-                    new Thread(() -> networkController.sendJoinGameMessage(p)).start();
-                    messageSent = true;
-                }
-                Log.d(TAG, "sendJoinGameMessage: 发送JOIN_GAME消息: " + (messageSent ? "成功" : "失败") + ", 玩家名: " + playerName);
-                
-                if (!messageSent) {
-                    // 如果发送失败，重试一次
-                    try {
-                        Thread.sleep(500);
-                        boolean retrySent = networkController.sendJoinGameMessage(playerName);
-                        Log.d(TAG, "sendJoinGameMessage: 重试发送JOIN_GAME: " + (retrySent ? "成功" : "失败"));
-                    } catch (Exception e) {
-                        Log.e(TAG, "sendJoinGameMessage: 重试发送JOIN_GAME出错", e);
-                    }
-                }
-            } else {
-                Log.e(TAG, "sendJoinGameMessage: 无法发送JOIN_GAME，networkController为null");
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "sendJoinGameMessage: 发送JOIN_GAME消息出错", e);
+        if (networkController == null) {
+            Log.e(TAG, "sendJoinGameMessage: networkController 为 null，无法发送JOIN_GAME");
+            return;
         }
+
+        executors.io().execute(() -> {
+            boolean success = networkController.sendMessage(NetworkManager.MessageType.JOIN_GAME, playerName);
+            Log.d(TAG, "sendJoinGameMessage: 发送JOIN_GAME消息: " + (success ? "成功" : "失败") + ", 玩家名: " + playerName);
+        });
     }
     
     /**
@@ -425,8 +394,9 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             return;
         }
         
-        // 连接成功后，先发送JOIN_GAME消息
-        sendJoinGameMessage(playerName);
+        // 等CONNECTED后再发送 JOIN_GAME
+        pendingJoinPlayerName = playerName;
+        joinSent = false;
         
         // 确保连接尝试后添加足够延迟，再打开游戏界面
         Handler handler = new Handler();
@@ -437,18 +407,6 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                 long connTime = System.currentTimeMillis() - startTime;
                 Toast.makeText(BluetoothSetupActivity.this, 
                     "连接耗时: " + connTime + "ms，准备打开游戏界面", Toast.LENGTH_SHORT).show();
-                
-                // 增加额外检查，确保网络控制器已经完全初始化
-                if (networkController != null) {
-                    // 再次发送加入消息以确保接收方收到
-                    new Thread(() -> networkController.sendJoinGameMessage(playerName)).start();
-                    Toast.makeText(BluetoothSetupActivity.this, 
-                        "再次发送加入消息", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(BluetoothSetupActivity.this, 
-                        "警告：网络控制器为空", Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "connectToDevice: 网络控制器为空");
-                }
                 
                 // 延迟打开游戏活动
                 new Handler().postDelayed(() -> {
@@ -485,6 +443,11 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                         break;
                     case CONNECTED:
                         tvStatus.setText("已连接");
+
+                        if (!joinSent && pendingJoinPlayerName != null) {
+                            sendJoinGameMessage(pendingJoinPlayerName);
+                            joinSent = true;
+                        }
                         break;
                 }
             }
@@ -539,19 +502,6 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         });
     }
     
-    // 内部监听器类
-    private class NetworkConnectionListener implements NetworkManager.ConnectionListener {
-        @Override
-        public void onConnectionStatusChanged(NetworkManager.ConnectionStatus status) {
-            updateConnectionStatus(status);
-        }
-        
-        @Override
-        public void onDeviceDiscovered(NetworkManager.DeviceInfo device) {
-            addDiscoveredDevice(device);
-        }
-    }
-    
     /**
      * 初始化蓝牙服务
      */
@@ -564,24 +514,12 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             bluetoothManager = BluetoothNetworkManager.getInstance(this);
             Log.d(TAG, "initBluetoothService: 蓝牙管理器创建成功");
             
-            // 初始化网络连接监听器
-            if (networkConnectionListener == null) {
-                networkConnectionListener = new NetworkConnectionListener();
-                Log.d(TAG, "initBluetoothService: 创建了新的网络连接监听器");
-            }
-            
-            // 设置连接状态变化监听器
-            bluetoothManager.setConnectionListener(networkConnectionListener);
-            Log.d(TAG, "initBluetoothService: 连接监听器设置成功");
-            
             // 初始化网络控制器 - 使用单例模式
             networkController = NetworkController.getInstance(bluetoothManager, this);
             Log.d(TAG, "initBluetoothService: 网络控制器创建成功");
             
             // 显示成功消息
             Toast.makeText(this, "蓝牙服务初始化成功", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "initBluetoothService: 蓝牙服务初始化完成");
-            
         } catch (Exception e) {
             Log.e(TAG, "initBluetoothService: 初始化蓝牙服务时出错", e);
             e.printStackTrace();
