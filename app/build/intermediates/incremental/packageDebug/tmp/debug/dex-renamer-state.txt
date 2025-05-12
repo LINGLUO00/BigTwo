@@ -1,16 +1,16 @@
-#Tue May 06 14:37:53 CST 2025
-base.0=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.2=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeProjectDexDebug/3/classes.dex
-base.3=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeProjectDexDebug/7/classes.dex
-base.4=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeProjectDexDebug/9/classes.dex
-base.5=/home/hyl/BigTwo/app/build/intermediates/dex/debug/mergeProjectDexDebug/12/classes.dex
+#Sat May 10 19:42:06 CST 2025
+base.0=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+base.1=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+base.2=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
+base.3=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\3\\classes.dex
+base.4=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\7\\classes.dex
+base.5=D\:\\development\\BigTwo\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\9\\classes.dex
 path.0=classes.dex
 path.1=0/classes.dex
-path.2=3/classes.dex
-path.3=7/classes.dex
-path.4=9/classes.dex
-path.5=12/classes.dex
+path.2=12/classes.dex
+path.3=3/classes.dex
+path.4=7/classes.dex
+path.5=9/classes.dex
 renamed.0=classes.dex
 renamed.1=classes2.dex
 renamed.2=classes3.dex
