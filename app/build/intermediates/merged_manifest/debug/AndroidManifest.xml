@@ -28,9 +28,9 @@
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon11"
         android:label="锄大地"
-        android:roundIcon="@drawable/ic_launcher"
+        android:roundIcon="@drawable/icon11"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
