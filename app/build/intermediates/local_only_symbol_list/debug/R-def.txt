@@ -8,6 +8,7 @@ color colorPrimaryDark
 color green
 color red
 color white
+drawable button
 drawable button_background
 drawable button_background_secondary
 drawable card_area_background
@@ -16,6 +17,9 @@ drawable diamond_three_holder_background
 drawable edit_text_background
 drawable ic_launcher
 drawable ic_player
+drawable icon
+drawable icon1
+drawable icon11
 drawable list_background
 drawable panel_background
 drawable player_icon_background
