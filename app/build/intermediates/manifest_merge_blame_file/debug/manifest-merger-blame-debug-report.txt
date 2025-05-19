@@ -49,12 +49,12 @@
 29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 29-->[androidx.core:core:1.9.0] D:\development\Android\gradle\caches\transforms-3\55dedc70b95a473650eda30d4efd0f99\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
 30        android:debuggable="true"
-31        android:icon="@drawable/ic_launcher"
-31-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:14:9-45
+31        android:icon="@drawable/icon11"
+31-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:14:9-40
 32        android:label="锄大地"
 32-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:15:9-28
-33        android:roundIcon="@drawable/ic_launcher"
-33-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:16:9-50
+33        android:roundIcon="@drawable/icon11"
+33-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:16:9-45
 34        android:supportsRtl="true"
 34-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:17:9-35
 35        android:testOnly="true"
