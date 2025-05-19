@@ -2915,6 +2915,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable button
 drawable button_background
 drawable button_background_secondary
 drawable card_area_background
@@ -2940,6 +2941,9 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_player
 drawable ic_search_black_24
+drawable icon
+drawable icon1
+drawable icon11
 drawable list_background
 drawable m3_appbar_background
 drawable m3_avd_hide_password

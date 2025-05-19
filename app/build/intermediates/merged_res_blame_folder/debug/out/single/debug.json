@@ -1,5 +1,13 @@
 [
     {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_icon11.png.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/icon11.png"
+    },
+    {
+        "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_button.jpg.flat",
+        "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\button.jpg"
+    },
+    {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_card_area_background.xml.flat",
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\card_area_background.xml"
     },
@@ -36,8 +44,16 @@
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\club_three_holder_background.xml"
     },
     {
+        "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_icon1.jpg.flat",
+        "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\icon1.jpg"
+    },
+    {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\layout_item_player_icon.xml.flat",
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\layout\\item_player_icon.xml"
+    },
+    {
+        "merged": "com.bigtwo.game.app-merged_res-29:/drawable_button.jpg.flat",
+        "source": "com.bigtwo.game.app-main-31:/drawable/button.jpg"
     },
     {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_player_info_background.xml.flat",
@@ -58,10 +74,6 @@
     {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_player_icon_background.xml.flat",
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\player_icon_background.xml"
-    },
-    {
-        "merged": "com.bigtwo.game.app-merged_res-29:/layout_activity_bluetooth_setup.xml.flat",
-        "source": "com.bigtwo.game.app-main-31:/layout/activity_bluetooth_setup.xml"
     },
     {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_diamond_three_holder_background.xml.flat",
@@ -88,11 +100,15 @@
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\ic_launcher.xml"
     },
     {
-        "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\layout_activity_rules.xml.flat",
-        "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\layout\\activity_rules.xml"
+        "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\drawable_icon.jpg.flat",
+        "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\drawable\\icon.jpg"
     },
     {
         "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\layout_activity_bluetooth_setup.xml.flat",
         "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\layout\\activity_bluetooth_setup.xml"
+    },
+    {
+        "merged": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-merged_res-29:\\layout_activity_rules.xml.flat",
+        "source": "D:\\development\\Android\\gradle\\daemon\\8.0\\com.bigtwo.game.app-main-31:\\layout\\activity_rules.xml"
     }
 ]
