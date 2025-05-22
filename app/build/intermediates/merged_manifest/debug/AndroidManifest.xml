@@ -71,7 +71,7 @@
             android:name="view.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="sensor" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
