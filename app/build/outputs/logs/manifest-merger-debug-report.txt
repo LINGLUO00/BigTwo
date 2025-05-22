@@ -157,7 +157,7 @@ ADDED from D:\development\BigTwo\app\src\main\AndroidManifest.xml:46:9-48:40
 activity#view.GameActivity
 ADDED from D:\development\BigTwo\app\src\main\AndroidManifest.xml:51:9-55:40
 	android:screenOrientation
-		ADDED from D:\development\BigTwo\app\src\main\AndroidManifest.xml:53:13-50
+		ADDED from D:\development\BigTwo\app\src\main\AndroidManifest.xml:53:13-47
 	android:exported
 		ADDED from D:\development\BigTwo\app\src\main\AndroidManifest.xml:55:13-37
 	android:configChanges

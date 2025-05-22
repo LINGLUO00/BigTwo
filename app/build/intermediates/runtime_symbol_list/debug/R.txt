@@ -2906,6 +2906,8 @@ int drawable abc_textfield_search_material 0x7f070075
 int drawable abc_vector_test 0x7f070076
 int drawable avd_hide_password 0x7f070077
 int drawable avd_show_password 0x7f070078
+int drawable background 0x7f0700f0
+int drawable blue_background 0x7f0700ef
 int drawable btn_checkbox_checked_mtrl 0x7f070079
 int drawable btn_checkbox_checked_to_unchecked_mtrl_animation 0x7f07007a
 int drawable btn_checkbox_unchecked_mtrl 0x7f07007b
@@ -3124,7 +3126,6 @@ int id bounceStart 0x7f080061
 int id btn_back 0x7f080062
 int id btn_bluetooth_multi_player 0x7f080063
 int id btn_create_game 0x7f080064
-int id btn_local_multi_player 0x7f080065
 int id btn_pass 0x7f080066
 int id btn_play_cards 0x7f080067
 int id btn_quit 0x7f080068
@@ -3540,6 +3541,9 @@ int id triangle 0x7f080201
 int id tv_ai_count 0x7f080202
 int id tv_card_count 0x7f080203
 int id tv_card_speed 0x7f080204
+int id tv_card_suit 0x7f08022b
+int id tv_card_suit_bottom 0x7f08022c
+int id tv_card_suit_large 0x7f08022d
 int id tv_card_value 0x7f080205
 int id tv_card_value_bottom 0x7f080206
 int id tv_current_player 0x7f080207

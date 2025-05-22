@@ -2907,6 +2907,8 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable avd_hide_password
 drawable avd_show_password
+drawable background
+drawable blue_background
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3125,7 +3127,6 @@ id bounceStart
 id btn_back
 id btn_bluetooth_multi_player
 id btn_create_game
-id btn_local_multi_player
 id btn_pass
 id btn_play_cards
 id btn_quit
@@ -3541,6 +3542,9 @@ id triangle
 id tv_ai_count
 id tv_card_count
 id tv_card_speed
+id tv_card_suit
+id tv_card_suit_bottom
+id tv_card_suit_large
 id tv_card_value
 id tv_card_value_bottom
 id tv_current_player

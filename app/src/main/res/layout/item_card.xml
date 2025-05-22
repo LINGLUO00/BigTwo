@@ -8,7 +8,7 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
     app:contentPadding="8dp"
-    android:foreground="?android:attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,21 +16,54 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/tv_card_value"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="♠A"
-            android:textSize="28sp"
-            android:textStyle="bold"/>
+            android:layout_gravity="start|top"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tv_card_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_card_suit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_card_value_bottom"
+            android:id="@+id/tv_card_suit_large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="♠A"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:rotation="180"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="1dp"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:orientation="vertical"
+            android:rotation="180">
+
+            <TextView
+                android:id="@+id/tv_card_value_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/tv_card_suit_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"/>
+        </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView> 
+</androidx.cardview.widget.CardView>
