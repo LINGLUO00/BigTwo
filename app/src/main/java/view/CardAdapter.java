@@ -77,23 +77,75 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         if (position >= 0 && position < cards.size()) {
             Card card = cards.get(position);
 
-            // 设置卡牌显示内容
-            holder.tvCardValue.setText(card.getDisplayName());
+            // 获取花色和数值符号
+            String suitSymbol = getSuitSymbol(card.getSuit());
+            String rankSymbol = getRankSymbol(card.getRank());
 
-            // 根据花色设置颜色
-            int textColor = (card.getSuit() == Card.HEART || card.getSuit() == Card.DIAMOND) ? Color.RED : Color.BLACK;
+            // 设置左上角内容
+            holder.tvCardValue.setText(rankSymbol);
+            holder.tvCardSuit.setText(suitSymbol);
+
+            // 设置中间大花色
+            holder.tvCardSuitLarge.setText(suitSymbol);
+
+            // 设置右下角内容（旋转180度）
+            holder.tvCardValueBottom.setText(rankSymbol);
+            holder.tvCardSuitBottom.setText(suitSymbol);
+
+            // 根据花色设置颜色（红/黑）
+            int textColor = getSuitColor(card.getSuit());
             holder.tvCardValue.setTextColor(textColor);
+            holder.tvCardSuit.setTextColor(textColor);
+            holder.tvCardSuitLarge.setTextColor(textColor);
+            holder.tvCardValueBottom.setTextColor(textColor);
+            holder.tvCardSuitBottom.setTextColor(textColor);
 
-            // 设置卡牌选中状态
+            // 更新选中状态样式
             updateCardStyle(holder, card);
 
-            // 设置点击监听器
+            // 点击事件
             holder.cardView.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onCardClick(position);
                 }
             });
         }
+    }
+
+    // 获取花色符号（♦♣♥♠）
+    private String getSuitSymbol(int suit) {
+        switch (suit) {
+            case Card.DIAMOND: return "♦";
+            case Card.CLUB: return "♣";
+            case Card.HEART: return "♥";
+            case Card.SPADE: return "♠";
+            default: return "";
+        }
+    }
+
+    // 获取点数符号（3,4,...,A,2）
+    private String getRankSymbol(int rank) {
+        switch (rank) {
+            case Card.THREE: return "3";
+            case Card.FOUR: return "4";
+            case Card.FIVE: return "5";
+            case Card.SIX: return "6";
+            case Card.SEVEN: return "7";
+            case Card.EIGHT: return "8";
+            case Card.NINE: return "9";
+            case Card.TEN: return "10";
+            case Card.JACK: return "J";
+            case Card.QUEEN: return "Q";
+            case Card.KING: return "K";
+            case Card.ACE: return "A";
+            case Card.TWO: return "2";
+            default: return "";
+        }
+    }
+
+    // 根据花色获取文字颜色（红色或黑色）
+    private int getSuitColor(int suit) {
+        return (suit == Card.HEART || suit == Card.DIAMOND) ? Color.RED : Color.BLACK;
     }
 
     @Override
@@ -124,12 +176,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
      */
     public static class CardViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView tvCardValue;
+        TextView tvCardValue;       // 左上角数值
+        TextView tvCardSuit;        // 左上角花色
+        TextView tvCardSuitLarge;   // 中间大花色
+        TextView tvCardValueBottom; // 右下角数值
+        TextView tvCardSuitBottom;  // 右下角花色
 
         public CardViewHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_view);
             tvCardValue = itemView.findViewById(R.id.tv_card_value);
+            tvCardSuit = itemView.findViewById(R.id.tv_card_suit);
+            tvCardSuitLarge = itemView.findViewById(R.id.tv_card_suit_large);
+            tvCardValueBottom = itemView.findViewById(R.id.tv_card_value_bottom);
+            tvCardSuitBottom = itemView.findViewById(R.id.tv_card_suit_bottom);
         }
     }
 }

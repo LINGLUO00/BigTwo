@@ -121,8 +121,8 @@
 72-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:54:13-74
 73            android:exported="false"
 73-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:55:13-37
-74            android:screenOrientation="landscape" />
-74-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:53:13-50
+74            android:screenOrientation="sensor" />
+74-->D:\development\BigTwo\app\src\main\AndroidManifest.xml:53:13-47
 75
 76        <provider
 76-->[androidx.emoji2:emoji2:1.2.0] D:\development\Android\gradle\caches\transforms-3\69262e6e1ef2f549fc8371faf15c8c5f\transformed\jetified-emoji2-1.2.0\AndroidManifest.xml:24:9-32:20

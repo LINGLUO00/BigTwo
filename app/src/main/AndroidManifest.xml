@@ -50,7 +50,7 @@
         <!-- 游戏活动 -->
         <activity
             android:name="view.GameActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensor"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
             

@@ -8,6 +8,8 @@ color colorPrimaryDark
 color green
 color red
 color white
+drawable background
+drawable blue_background
 drawable button
 drawable button_background
 drawable button_background_secondary
@@ -29,7 +31,6 @@ drawable text_background
 id btn_back
 id btn_bluetooth_multi_player
 id btn_create_game
-id btn_local_multi_player
 id btn_pass
 id btn_play_cards
 id btn_quit
@@ -71,6 +72,9 @@ id sv_debug_info
 id tv_ai_count
 id tv_card_count
 id tv_card_speed
+id tv_card_suit
+id tv_card_suit_bottom
+id tv_card_suit_large
 id tv_card_value
 id tv_card_value_bottom
 id tv_current_player
