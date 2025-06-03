@@ -7,11 +7,12 @@ public class GameFactory {
 
     /**
      * 创建一个单机游戏（一个人类玩家，多个AI对手）
+     * 
      * @param playerName 人类玩家名称
-     * @param aiCount AI玩家数量 (1-3)
+     * @param aiCount    AI玩家数量 (1-3)
      * @return 创建的游戏实例
      */
-    public static Game createSinglePlayerGame(String playerName, int aiCount) {
+    public static Game createSinglePlayerGame(String playerName, int aiCount, AIStrategy aiStrategy) {
         // 验证AI玩家数量是否合法
         if (aiCount < 1 || aiCount > 3) {
             throw new IllegalArgumentException("AI玩家数量必须在1-3之间");
@@ -25,16 +26,7 @@ public class GameFactory {
 
         // 添加AI玩家
         for (int i = 0; i < aiCount; i++) {
-            AIStrategy strategy;
-
-            // 第一个AI使用简单策略，其他使用高级策略
-            if (i == 0) {
-                strategy = new AdvancedAIStrategy();
-            } else {
-                strategy = new SmartAIStrategy();
-            }
-
-            AIPlayer aiPlayer = new AIPlayer("AI " + (i + 1), strategy);
+            AIPlayer aiPlayer = new AIPlayer("AI " + (i + 1), aiStrategy);
             game.addPlayer(aiPlayer);
         }
 
@@ -43,6 +35,7 @@ public class GameFactory {
 
     /**
      * 创建一个多人游戏（多个人类玩家）
+     * 
      * @param playerNames 所有人类玩家的名称
      * @return 创建的游戏实例
      */
@@ -65,8 +58,9 @@ public class GameFactory {
 
     /**
      * 创建一个混合游戏（部分人类玩家，部分AI玩家）
+     * 
      * @param playerNames 人类玩家名称
-     * @param aiCount AI玩家数量
+     * @param aiCount     AI玩家数量
      * @return 创建的游戏实例
      */
     public static Game createMixedGame(String[] playerNames, int aiCount) {

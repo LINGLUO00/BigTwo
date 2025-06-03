@@ -13,6 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.bigtwo.game.R;
 import util.AppExecutors;
+import models.AIStrategy;
+import models.AdvancedAIStrategy;
+import models.SmartAIStrategy;
 
 /**
  * 游戏设置活动，用于配置游戏参数
@@ -27,7 +30,7 @@ public class GameSetupActivity extends AppCompatActivity {
     private SeekBar sbAiCount;
     private TextView tvAiCount;
     private EditText[] etPlayerNames;
-    
+
     // 使用AppExecutors来处理背景线程
     private AppExecutors appExecutors = AppExecutors.getInstance();
 
@@ -75,8 +78,9 @@ public class GameSetupActivity extends AppCompatActivity {
 
     /**
      * 配置单人模式设置
+     *
      * @param singlePlayerSettings 单人模式设置项
-     * @param multiPlayerSettings 多人模式设置项
+     * @param multiPlayerSettings  多人模式设置项
      */
     private void configureSinglePlayerSettings(View singlePlayerSettings, View multiPlayerSettings) {
         singlePlayerSettings.setVisibility(View.VISIBLE);
@@ -95,17 +99,20 @@ public class GameSetupActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
     /**
      * 配置多人模式设置
+     *
      * @param singlePlayerSettings 单人模式设置项
-     * @param multiPlayerSettings 多人模式设置项
+     * @param multiPlayerSettings  多人模式设置项
      */
     private void configureMultiPlayerSettings(View singlePlayerSettings, View multiPlayerSettings) {
         singlePlayerSettings.setVisibility(View.GONE);
@@ -145,6 +152,7 @@ public class GameSetupActivity extends AppCompatActivity {
 
     /**
      * 处理单人游戏逻辑
+     *
      * @param intent 游戏活动的Intent
      */
     private void handleSinglePlayerGame(Intent intent) {
@@ -167,6 +175,7 @@ public class GameSetupActivity extends AppCompatActivity {
 
     /**
      * 处理多人游戏逻辑
+     *
      * @param intent 游戏活动的Intent
      */
     private void handleMultiPlayerGame(Intent intent) {
@@ -193,9 +202,22 @@ public class GameSetupActivity extends AppCompatActivity {
 
     /**
      * 显示Toast信息
+     *
      * @param message 要显示的消息
      */
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    // 在GameSetupActivity中添加
+    private AIStrategy getSelectedAIStrategy() {
+        RadioGroup rgAiDifficulty = findViewById(R.id.rg_ai_difficulty);
+        int checkedId = rgAiDifficulty.getCheckedRadioButtonId();
+
+        if (checkedId == R.id.rb_advanced) {
+            return new AdvancedAIStrategy();
+        } else {
+            return new SmartAIStrategy();
+        }
     }
 }
