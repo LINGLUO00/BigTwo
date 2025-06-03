@@ -364,7 +364,7 @@ public class GameController implements Game.GameStateListener {
     private void maybeAutoPlayNext() {
         executors.io().execute(() -> {
             try {
-                Thread.sleep(2500); // 稍作延迟让 UI 更新并让模型切换到下一位
+                Thread.sleep(1500); // 稍作延迟让 UI 更新并让模型切换到下一位
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
