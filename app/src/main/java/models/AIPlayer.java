@@ -11,7 +11,7 @@ public class AIPlayer extends Player {
     private static final Logger LOG = Logger.getLogger(AIPlayer.class.getName());
 
     public AIPlayer(String name, AIStrategy strategy) {
-        super(name + " (" + strategy.getName() + ")", false);  // 创建一个AI玩家
+        super(name , false);  // 创建一个AI玩家
         this.strategy = Objects.requireNonNull(strategy);  // 不能为空
     }
 
@@ -54,7 +54,7 @@ public class AIPlayer extends Player {
         }
         return -1;  // 否则，返回-1
     }
-    
+
     /**
      * 执行AI自动出牌决策
      * @param game 当前游戏实例
@@ -62,7 +62,7 @@ public class AIPlayer extends Player {
      */
     public boolean autoPlay(Game game) {
         if (game == null) return false;
-        
+
         // 获取其他玩家手牌数量
         List<Integer> othersCount = new ArrayList<>();
         for (Player p : game.getPlayers()) {
@@ -70,10 +70,10 @@ public class AIPlayer extends Player {
                 othersCount.add(p.getHand().size());
             }
         }
-        
+
         // 做出决策
         makeDecision(game.getLastPattern(), othersCount);
-        
+
         // 尝试出牌
         return game.playSelected();
     }

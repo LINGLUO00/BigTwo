@@ -184,7 +184,7 @@
         android:visibility="gone"
         android:padding="8dp"
         android:maxHeight="150dp">
-        
+
         <TextView
             android:id="@+id/tv_debug_info"
             android:layout_width="match_parent"
@@ -193,4 +193,4 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp" />
     </ScrollView>
-</RelativeLayout> 
+</RelativeLayout>
