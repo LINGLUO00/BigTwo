@@ -5,28 +5,28 @@ plugins {
 android {
     namespace 'com.bigtwo.game'
     compileSdk 33
-    
+
     defaultConfig {
         applicationId "com.bigtwo.game"
-        minSdk 21
+        minSdk 29
         targetSdk 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    
+
     sourceSets {
         main {
             java.srcDirs = ['src/main/java']
@@ -34,7 +34,7 @@ android {
             manifest.srcFile 'src/main/AndroidManifest.xml'
         }
     }
-    
+
     // 添加lint配置，忽略一些常见的警告
     lintOptions {
         abortOnError false
@@ -51,4 +51,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-} 
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+}
