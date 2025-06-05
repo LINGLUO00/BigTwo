@@ -21,15 +21,15 @@ import models.SmartAIStrategy;
  * 游戏设置活动，用于配置游戏参数
  */
 public class GameSetupActivity extends AppCompatActivity {
-    public static final int MODE_SINGLE_PLAYER = 1;
-    public static final int MODE_NETWORK = 2;
+    public static final int MODE_SINGLE_PLAYER = 1;// 单人模式
+    public static final int MODE_NETWORK = 2;// 网络模式
 
-    private int gameMode;
-    private EditText etPlayerName;
-    private RadioGroup rgAiDifficulty;
-    private SeekBar sbAiCount;
-    private TextView tvAiCount;
-    private EditText[] etPlayerNames;
+    private int gameMode;// 游戏模式
+    private EditText etPlayerName;// 玩家名称
+    private RadioGroup rgAiDifficulty;// AI难度
+    private SeekBar sbAiCount;// AI数量,sb:seekBar
+    private TextView tvAiCount;// AI数量文本,tv:textView
+    private EditText[] etPlayerNames;// 玩家名称数组,et:editText
 
     // 使用AppExecutors来处理背景线程
     private AppExecutors appExecutors = AppExecutors.getInstance();
@@ -88,13 +88,14 @@ public class GameSetupActivity extends AppCompatActivity {
 
         // 配置AI数量选择器
         sbAiCount.setMax(3);
+        sbAiCount.setMin(2);
         sbAiCount.setProgress(2); // 默认2个AI
         tvAiCount.setText("AI对手数量: 2");
 
         sbAiCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress = Math.max(1, progress); // 至少1个AI对手
+                progress = Math.max(2, progress); // 至少2个AI对手
                 tvAiCount.setText("AI对手数量: " + progress);
             }
 

@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
             // 如果是蓝牙房主，显示开始游戏按钮
             boolean isHost = getIntent().getBooleanExtra("is_bluetooth_host", false);
             if (isHost) {
-                btnStartGame.setVisibility(View.VISIBLE);
+                btnStartGame.setVisibility(View.VISIBLE);// 显示开始游戏按钮
                 updateConnectionStatus(NetworkManager.ConnectionStatus.CONNECTING);
             }
         }
@@ -214,7 +214,7 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
     private void handleCardSelection(int position) {
         Player currentPlayer = gameController.getGame().getCurrentPlayer();
         if (currentPlayer == null || !currentPlayer.isHuman()) {
-            Toast.makeText(this, "Not your turn", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "不是你的回合", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -238,7 +238,7 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
     private void startGame() {
         try {
             gameController.startGame();
-            Toast.makeText(this, "Game started successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "游戏开始", Toast.LENGTH_SHORT).show();
             btnStartGame.setVisibility(View.GONE);
         } catch (Exception e) {
             handleGameStartError(e);
@@ -285,16 +285,15 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
             gameController.createNetworkGame(playerName, isHost);// 创建网络游戏
         } catch (Exception e) {
             Log.e(TAG, "Error initializing Bluetooth game: " + e.getMessage());
-            Toast.makeText(this, "Error initializing Bluetooth game: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void confirmQuit() {
         new AlertDialog.Builder(this)
-                .setTitle("Quit Game")
-                .setMessage("Are you sure you want to quit the game?")
-                .setPositiveButton("Yes", (dialog, which) -> finish())
-                .setNegativeButton("No", null)
+                .setTitle("退出游戏")
+                .setMessage("确定要退出游戏吗？")
+                .setPositiveButton("确定", (dialog, which) -> finish())
+                .setNegativeButton("取消", null)
                 .show();
     }
 
@@ -462,10 +461,9 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
 
     @Override
     public void addDiscoveredDevice(NetworkManager.DeviceInfo device) {
-        // Implementation for adding discovered devices
+        // 添加发现的设备
         AppExecutors.getInstance().main().execute(() -> {
-            addDebugMessage("Device discovered: " + device.getName());
-            // Additional implementation can be added based on the app requirements
+            // 根据应用需求添加额外的实现
         });
     }
 
@@ -505,7 +503,7 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
         if (gameController != null && gameController.getGame() != null) {
             boolean success = gameController.getGame().playSelected();
             if (!success) {
-                Toast.makeText(this, "Invalid play", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "无效的出牌", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -515,12 +513,12 @@ public class GameActivity extends AppCompatActivity implements GameView, Network
             return;
         Player cur = gameController.getGame().getCurrentPlayer();
         if (cur == null || !cur.isHuman()) {
-            Toast.makeText(this, "Not your turn", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "不是你的回合", Toast.LENGTH_SHORT).show();
             return;
         }
         boolean success = gameController.getGame().pass();
         if (!success) {
-            Toast.makeText(this, "Cannot pass now", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "不能pass", Toast.LENGTH_SHORT).show();
         }
     }
 

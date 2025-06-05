@@ -40,30 +40,30 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
     private static final String TAG = "BluetoothSetupActivity";
     private static final int REQUEST_ENABLE_BT = 1;
     private static final int REQUEST_BLUETOOTH_PERMISSIONS = 2;
-    
+
     private EditText etPlayerName;
     private Button btnCreateGame;
     private Button btnScan;
     private Button btnBack;
     private ListView lvDevices;
     private TextView tvStatus;
-    
+
     private NetworkController networkController;
     private BluetoothNetworkManager bluetoothManager;
     private List<NetworkManager.DeviceInfo> deviceList;
     private ArrayAdapter<String> deviceAdapter;
-    
+
     // 客户端延迟发送JOIN_GAME相关字段
     private String pendingJoinPlayerName;
     private boolean joinSent;
-    
+
     private final AppExecutors executors = AppExecutors.getInstance();
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_setup);
-        
+
         // 初始化视图
         etPlayerName = findViewById(R.id.et_player_name);
         btnCreateGame = findViewById(R.id.btn_create_game);
@@ -71,12 +71,12 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         btnBack = findViewById(R.id.btn_back);
         lvDevices = findViewById(R.id.lv_devices);
         tvStatus = findViewById(R.id.tv_status);
-        
+
         // 初始化设备列表
         deviceList = new ArrayList<>();
         deviceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         lvDevices.setAdapter(deviceAdapter);
-        
+
         // 设置监听器
         btnCreateGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,27 +84,27 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                 createGame();
             }
         });
-        
+
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scanForDevices();
             }
         });
-        
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        
+
         lvDevices.setOnItemClickListener((parent, view, position, id) -> connectToDevice(position));
-        
+
         // 检查蓝牙权限
         checkBluetoothPermissions();
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -113,7 +113,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             bluetoothManager.disconnect();
         }
     }
-    
+
     /**
      * 检查蓝牙权限
      */
@@ -121,10 +121,10 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             // Android 12及以上需要BLUETOOTH_SCAN和BLUETOOTH_CONNECT权限
             String[] permissions = new String[] {
-                Manifest.permission.BLUETOOTH_SCAN,
-                Manifest.permission.BLUETOOTH_CONNECT
+                    Manifest.permission.BLUETOOTH_SCAN,
+                    Manifest.permission.BLUETOOTH_CONNECT
             };
-            
+
             boolean needRequest = false;
             for (String permission : permissions) {
                 if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
@@ -132,37 +132,40 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                     break;
                 }
             }
-            
+
             if (needRequest) {
                 ActivityCompat.requestPermissions(this, permissions, REQUEST_BLUETOOTH_PERMISSIONS);
                 return;
             }
         } else {
             // Android 12以下需要ACCESS_FINE_LOCATION权限
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, REQUEST_BLUETOOTH_PERMISSIONS);
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                        REQUEST_BLUETOOTH_PERMISSIONS);
                 return;
             }
         }
-        
+
         // 权限已获取，初始化蓝牙
         initBluetooth();
     }
-    
+
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        
+
         if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
             boolean allGranted = true;
-            
+
             for (int result : grantResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
                     allGranted = false;
                     break;
                 }
             }
-            
+
             if (allGranted) {
                 initBluetooth();
             } else {
@@ -171,7 +174,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             }
         }
     }
-    
+
     /**
      * 初始化蓝牙
      */
@@ -183,7 +186,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             finish();
             return;
         }
-        
+
         // 检查蓝牙是否开启
         if (!adapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -197,25 +200,24 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
 
             if (networkController != null) {
                 networkController.initialize(NetworkManager.ConnectionType.BLUETOOTH);
-                Toast.makeText(this, "Bluetooth 初始化完成", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "错误: 网络控制器未正确创建", Toast.LENGTH_LONG).show();
                 Log.e(TAG, "initBluetooth: 网络控制器依旧为null");
             }
         }
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
                 // 蓝牙已启用，确保网络控制器已初始化
                 if (networkController != null) {
                     Log.d(TAG, "onActivityResult: 蓝牙已启用，初始化网络控制器");
                     networkController.initialize(NetworkManager.ConnectionType.BLUETOOTH);
-                    Toast.makeText(this, "3BluetoothSetupActivity - onActivityResult - 网络控制器初始化成功", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "3BluetoothSetupActivity - onActivityResult - 网络控制器初始化成功", Toast.LENGTH_LONG)
+                            .show();
                 } else {
                     Log.e(TAG, "onActivityResult: 网络控制器未正确创建");
                     Toast.makeText(this, "错误: 网络控制器未正确创建", Toast.LENGTH_LONG).show();
@@ -232,7 +234,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             }
         }
     }
-    
+
     /**
      * 扫描蓝牙设备
      */
@@ -242,28 +244,28 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             Toast.makeText(this, "请输入玩家名称", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         // 显示状态
         tvStatus.setText("正在扫描设备...");
-        
+
         // 确保按钮状态
         btnScan.setEnabled(false);
         btnScan.setText("正在扫描...");
-        
+
         // 清空设备列表
         deviceList.clear();
         deviceAdapter.clear();
         deviceAdapter.notifyDataSetChanged();
-        
+
         Toast.makeText(this, "开始扫描设备...", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "scanForDevices: 清空设备列表并开始扫描");
-        
+
         // 开始扫描设备
         try {
             if (networkController != null) {
                 Log.d(TAG, "scanForDevices: 调用networkController.startDiscovery()");
                 networkController.startDiscovery();
-                
+
                 // 添加30秒超时，自动重新启用扫描按钮
                 new Handler().postDelayed(() -> {
                     if (deviceList.isEmpty()) {
@@ -273,20 +275,19 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                         Log.d(TAG, "scanForDevices: 扫描完成，找到 " + deviceList.size() + " 个设备");
                         tvStatus.setText("找到 " + deviceList.size() + " 个设备");
                     }
-                    
+
                     // 重新启用扫描按钮
                     btnScan.setEnabled(true);
                     btnScan.setText("重新扫描");
-                    
+
                     // 自动停止搜索
                     if (networkController != null) {
                         networkController.stopDiscovery();
                     }
                 }, 30000); // 30秒超时
-                
+
             } else {
                 Log.e(TAG, "scanForDevices: 无法扫描，networkController为null");
-                Toast.makeText(this, "网络控制器未初始化，请重启应用", Toast.LENGTH_LONG).show();
                 tvStatus.setText("扫描失败");
                 btnScan.setEnabled(true);
                 btnScan.setText("重新扫描");
@@ -300,7 +301,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             btnScan.setText("重新扫描");
         }
     }
-    
+
     /**
      * 创建蓝牙游戏（作为主机）
      */
@@ -310,46 +311,42 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             Toast.makeText(this, "请输入玩家名称", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         // 确保蓝牙已正确初始化
         if (bluetoothManager == null || networkController == null) {
-            Toast.makeText(this, "蓝牙服务未正确初始化，请重试", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "createGame: 蓝牙服务未正确初始化");
             return;
         }
 
         // 显示状态
         tvStatus.setText("正在创建房间...");
-        Toast.makeText(this, "开始创建房间...", Toast.LENGTH_SHORT).show();
-        
+
         // 调用网络控制器创建房间
         boolean roomCreated = networkController.createRoom(playerName + "_room");
 
         if (!roomCreated) {
-            Toast.makeText(this, "创建房间失败，请重试", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "createGame: 创建房间失败");
             tvStatus.setText("创建房间失败");
             return;
         }
 
-        Toast.makeText(this, "房间创建成功，等待其他玩家连接", Toast.LENGTH_SHORT).show();
         tvStatus.setText("等待其他玩家连接...");
-        
+
         // 添加延迟，确保网络状态更新
         new Handler().postDelayed(() -> {
             // 检查网络状态
             NetworkManager.ConnectionStatus status = networkController.getConnectionStatus();
-            Toast.makeText(BluetoothSetupActivity.this, 
-                         "当前连接状态: " + status, Toast.LENGTH_SHORT).show();
-            
+
             // 打开游戏活动
             Intent intent = new Intent(BluetoothSetupActivity.this, GameActivity.class);
             intent.putExtra("game_mode", GameSetupActivity.MODE_NETWORK);
             intent.putExtra("player_name", playerName);
             intent.putExtra("is_bluetooth_host", true);
-            intent.putExtra("host_ready", true);  // 添加标志，表示主机已准备好
+            intent.putExtra("host_ready", true); // 添加标志，表示主机已准备好
             startActivity(intent);
         }, 1000); // 添加1秒延迟，确保网络初始化完成
     }
-    
+
     /**
      * 发送加入游戏消息
      */
@@ -364,7 +361,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             Log.d(TAG, "sendJoinGameMessage: 发送JOIN_GAME消息: " + (success ? "成功" : "失败") + ", 玩家名: " + playerName);
         });
     }
-    
+
     /**
      * 连接到设备（作为客户端）
      */
@@ -372,32 +369,31 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         if (position < 0 || position >= deviceList.size()) {
             return;
         }
-        
+
         String playerName = etPlayerName.getText().toString().trim();
         if (playerName.isEmpty()) {
             Toast.makeText(this, "请输入玩家名称", Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         NetworkManager.DeviceInfo deviceInfo = deviceList.get(position);
         tvStatus.setText("正在连接到 " + deviceInfo.getName() + "...");
-        
+
         // 记录连接开始时间戳，便于调试
         final long startTime = System.currentTimeMillis();
-        Toast.makeText(this, "开始连接到: " + deviceInfo.getName(), Toast.LENGTH_SHORT).show();
-        
+
         // 先尝试建立连接
         boolean joinResult = networkController.joinRoom(deviceInfo.getAddress());
-        
+
         if (!joinResult) {
-            Toast.makeText(this, "连接失败，请重试", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "connectToDevice: 连接失败");
             return;
         }
-        
+
         // 等CONNECTED后再发送 JOIN_GAME
         pendingJoinPlayerName = playerName;
         joinSent = false;
-        
+
         // 确保连接尝试后添加足够延迟，再打开游戏界面
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -405,9 +401,8 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             public void run() {
                 // 连接后添加诊断信息
                 long connTime = System.currentTimeMillis() - startTime;
-                Toast.makeText(BluetoothSetupActivity.this, 
-                    "连接耗时: " + connTime + "ms，准备打开游戏界面", Toast.LENGTH_SHORT).show();
-                
+                Log.d(TAG, "connectToDevice: 连接耗时: " + connTime + "ms，准备打开游戏界面");
+
                 // 延迟打开游戏活动
                 new Handler().postDelayed(() -> {
                     // 打开游戏活动
@@ -419,15 +414,11 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                     intent.putExtra("device_address", deviceInfo.getAddress());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
-                    
-                    // 显示切换提示
-                    Toast.makeText(BluetoothSetupActivity.this, 
-                        "正在切换到游戏界面...", Toast.LENGTH_SHORT).show();
                 }, 1000); // 额外延迟1秒，确保连接过程完成
             }
         }, 2000); // 增加到2秒延迟，给网络控制器更多时间初始化
     }
-    
+
     // NetworkView接口实现
     @Override
     public void updateConnectionStatus(NetworkManager.ConnectionStatus status) {
@@ -453,14 +444,14 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             }
         });
     }
-    
+
     @Override
     public void addDiscoveredDevice(NetworkManager.DeviceInfo device) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "addDiscoveredDevice: 尝试添加设备: " + device.getName() + " (" + device.getAddress() + ")");
-                
+
                 // 检查设备是否已存在
                 boolean exists = false;
                 for (NetworkManager.DeviceInfo existingDevice : deviceList) {
@@ -470,28 +461,28 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
                         break;
                     }
                 }
-                
+
                 if (!exists) {
                     Log.d(TAG, "addDiscoveredDevice: 添加新设备");
                     deviceList.add(device);
                     String displayName = device.getName() + " (" + device.getAddress() + ")";
                     deviceAdapter.add(displayName);
                     deviceAdapter.notifyDataSetChanged();
-                    
+
                     // 更新状态，显示找到的设备数量
                     tvStatus.setText("找到 " + deviceList.size() + " 个设备");
-                    
+
                     // 如果是第一个设备，重新启用按钮
                     if (deviceList.size() == 1) {
                         btnScan.setEnabled(true);
                         btnScan.setText("继续扫描");
                     }
-                    
+
                 }
             }
         });
     }
-    
+
     @Override
     public void showMessage(String message) {
         runOnUiThread(new Runnable() {
@@ -501,7 +492,7 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
             }
         });
     }
-    
+
     /**
      * 初始化蓝牙服务
      */
@@ -509,21 +500,17 @@ public class BluetoothSetupActivity extends AppCompatActivity implements Network
         // 初始化蓝牙管理器
         try {
             Log.d(TAG, "initBluetoothService: 开始初始化蓝牙服务");
-            
+
             // 使用单例获取蓝牙管理器
             bluetoothManager = BluetoothNetworkManager.getInstance(this);
             Log.d(TAG, "initBluetoothService: 蓝牙管理器创建成功");
-            
+
             // 初始化网络控制器 - 使用单例模式
             networkController = NetworkController.getInstance(bluetoothManager, this);
             Log.d(TAG, "initBluetoothService: 网络控制器创建成功");
-            
-            // 显示成功消息
-            Toast.makeText(this, "蓝牙服务初始化成功", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(TAG, "initBluetoothService: 初始化蓝牙服务时出错", e);
             e.printStackTrace();
-            Toast.makeText(this, "初始化蓝牙服务失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.e(TAG, "initBluetoothService: 初始化蓝牙服务失败: " + e.getMessage());
         }
     }
-} 
+}

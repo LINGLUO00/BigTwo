@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import android.util.Log;
 
 /**
  * 游戏控制器类，负责协调游戏逻辑和UI交互
@@ -200,7 +201,7 @@ public class GameController implements Game.GameStateListener {
         for (Player player : game.getPlayers()) {
             playerInfo.append(player.getName()).append(player.isHuman() ? " (人类)" : " (AI)").append("\n");
         }
-        showDebugToast(playerInfo.toString());
+        Log.e("PlayerInfo", playerInfo.toString());
     }
 
     // 显示调试消息
@@ -217,7 +218,6 @@ public class GameController implements Game.GameStateListener {
         try {
             return operation.get();
         } catch (Exception e) {
-            showDebugToast(errorMessage + ": " + e.getMessage());
             e.printStackTrace();
             return defaultValue;
         }
@@ -274,7 +274,6 @@ public class GameController implements Game.GameStateListener {
             }
 
             final String sendStr = msg;
-            showDebugToast((isHost() ? "BROADCAST " : "REQ ") + sendStr);
             executors.io().execute(() -> networkController.sendMessage(t, sendStr));
         }
 
@@ -297,7 +296,7 @@ public class GameController implements Game.GameStateListener {
         try {
             updateGameUI();
         } catch (Exception e) {
-            showDebugToast("DBG updateUI err=" + e.getMessage());
+            Log.e("PlayerPassed error", e.getMessage());
         }
 
         // 网络同步 pass

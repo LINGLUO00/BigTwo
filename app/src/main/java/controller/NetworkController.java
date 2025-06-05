@@ -173,14 +173,13 @@ public class NetworkController implements NetworkManager.ConnectionListener, Net
 
     // 发送消息
     public boolean sendMessage(NetworkManager.MessageType type, String data) {
-        currentView.showMessage("发送消息: " + type);
         executors.io().execute(() -> {
             boolean success = networkManager.sendMessage(type, data);
             mainHandler.post(() -> {
                 if (success) {
-                    currentView.showMessage(type + " 消息发送成功");
+                    Log.d(TAG, type + " 消息发送成功");
                 } else {
-                    currentView.showMessage(type + " 消息发送失败");
+                    Log.e(TAG, type + " 消息发送失败");
                 }
             });
         });
@@ -263,6 +262,7 @@ public class NetworkController implements NetworkManager.ConnectionListener, Net
         return !pendingJoins.isEmpty();
     }
 
+    // 应用 PLAY_BROADCAST 消息，用于客户端同步牌面
     private void applyPlayCards(String data) {
         try {
             String[] parts = data.split(":", 2);
@@ -362,6 +362,7 @@ public class NetworkController implements NetworkManager.ConnectionListener, Net
             } catch (Exception e) {
             }
         } catch (Exception ignored) {
+            Log.e(TAG, "applyPlayCards error", ignored);
         }
     }
 
@@ -463,6 +464,7 @@ public class NetworkController implements NetworkManager.ConnectionListener, Net
                         }
                     gameController.updateGameState(g);
                 } catch (Exception ignored) {
+                    Log.e(TAG, "handlePassBroadcast error", ignored);
                 }
             }
         }
